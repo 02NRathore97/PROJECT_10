@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.rays.common.attachment.AttachmentDTO;
+import com.rays.common.attachment.AttachmentServiceImpl;
 import com.rays.dto.MarksheetDTO;
 import com.rays.dto.UserDTO;
 
@@ -47,6 +49,9 @@ public abstract class BaseCtl<F extends BaseForm, T extends BaseDTO, S extends B
 
 	@Autowired
 	protected S baseService;
+	
+	@Autowired
+	public AttachmentServiceImpl attachmentService;
 
 	@Value("${page.size}")
 	private int pageSize = 0;
@@ -109,7 +114,7 @@ public abstract class BaseCtl<F extends BaseForm, T extends BaseDTO, S extends B
 		} else {
 
 			res.setSuccess(false);
-			//res.addMessage("Record not found");
+			res.addMessage("Record not found");
 		}
 		return res;
 	}
@@ -143,13 +148,24 @@ public abstract class BaseCtl<F extends BaseForm, T extends BaseDTO, S extends B
 		try {
 
 			// System.out.println("deleteMany Page No is ******---" + pageNo);
-
+			T dto = (T) form.getDto();
 			for (String id : ids) {
 				System.out.println("Records To be Deleted :: " + id);
+				
+				//delete imageId along with userId
+				if(dto.getClass()== UserDTO.class) {
+					UserDTO userDTO = (UserDTO) baseService.findById(Long.parseLong(id), userContext);
+					if(userDTO!=null) {
+						AttachmentDTO attachmentDTO = attachmentService.delete(userDTO.getImageId(), userContext);
+						System.out.println("ImageId deleted successfullt......"+ attachmentDTO.getId());
+					}
+				}
+				
+				//delete userId
 				baseService.delete(Long.parseLong(id), userContext);
 
 			}
-			T dto = (T) form.getDto();
+			
 			// System.out.println("dto ::" + dto.getClass());
 			// if(dto!=null)
 

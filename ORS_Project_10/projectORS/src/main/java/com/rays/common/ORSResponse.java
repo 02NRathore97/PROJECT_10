@@ -77,9 +77,9 @@ public class ORSResponse {
 	
 	
 	// getter method for token
-	public String gettoken() {
-		return this.token;
-	}
+//	public String gettoken() {
+//		return this.token;
+//	}
 
 	
 	
