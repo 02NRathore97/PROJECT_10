@@ -92,7 +92,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserDTO, UserDAOInt> implem
 
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("user", dto.getFirstName() + " " + dto.getLastName());
-			params.put("password", dto.getPassword());
 			emailDTO.setMessageCode("U-CP", params);
 
 			emailService.send(emailDTO, null);

@@ -48,7 +48,6 @@ INDEX VERSION 1.131+D:\ORS_Project_10\.metadata\.plugins\org.eclipse.jdt.core
 1875463705.index
 2438408587.index
 1931961965.index
-1961713826.index
 2137582649.index
 246471002.index
 3111112017.index
